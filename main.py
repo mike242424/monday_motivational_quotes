@@ -1,15 +1,20 @@
 import datetime as dt
+import smtplib
+import random
 
+MY_EMAIL = 'mike.test.2424@gmail.com'
+MY_PASSWORD = 'pxrt sqnz mqjq kaxc'
 now = dt.datetime.now()
-year = now.year
-month = now.month
-day = now.day
 day_of_the_week = now.weekday()
 
-print(now)
-print(year)
-print(month)
-print(day_of_the_week)
+if day_of_the_week == 3:
+    with open('./quotes.txt') as data:
+        content = data.readlines()
 
-date_of_birth = dt.datetime(year=1987, month=9, day=26)
-print(date_of_birth)
+    with smtplib.SMTP(host='smtp.gmail.com', port=587) as connection:
+        connection.starttls()
+        connection.login(user=MY_EMAIL, password=MY_PASSWORD)
+        connection.sendmail(
+            from_addr=MY_EMAIL,
+            to_addrs='miketest2424@yahoo.com',
+            msg=f'Subject: Monday Motivation Quote\n\n{random.choice(content)}')
